@@ -1,0 +1,366 @@
+{
+  "project_info": {
+    "name": "Building Management System - Backend API",
+    "version": "1.0.0",
+    "framework": "Spring Boot 3.2.2",
+    "database": "PostgreSQL",
+    "authentication": "JWT",
+    "total_test_classes": 5,
+    "total_test_methods": 18
+  },
+  "test_results": {
+    "UserControllerTest": {
+      "class_name": "UserControllerTest",
+      "description": "Tests for User management endpoints",
+      "test_methods": [
+        {
+          "test_name": "testGetAllUsers",
+          "method": "GET",
+          "endpoint": "/api/users",
+          "description": "Should return list of all users",
+          "expected_status": 200,
+          "mock_service_method": "userService.getAllUsers()",
+          "sample_response": [
+            {
+              "id": "1",
+              "unit": "101",
+              "name": "Ali Ahmad",
+              "role": "MANAGER",
+              "phone": "09123456789",
+              "plateNumber": "12345-ب-88",
+              "moveInDate": "2024-01-15T10:30:00"
+            },
+            {
+              "id": "2", 
+              "unit": "102",
+              "name": "Sara Moradi",
+              "role": "OWNER",
+              "phone": "09198765432",
+              "plateNumber": "67890-ج-99",
+              "moveInDate": "2024-02-01T14:20:00"
+            }
+          ]
+        },
+        {
+          "test_name": "testGetUserById",
+          "method": "GET", 
+          "endpoint": "/api/users/{id}",
+          "description": "Should return user by ID",
+          "expected_status": 200,
+          "mock_service_method": "userService.getUserById(id)"
+        },
+        {
+          "test_name": "testCreateUser",
+          "method": "POST",
+          "endpoint": "/api/users",
+          "description": "Should create new user",
+          "expected_status": 200,
+          "mock_service_method": "userService.createUser(userDto)",
+          "sample_request": {
+            "username": "newuser",
+            "password": "password123",
+            "name": "New User",
+            "role": "TENANT",
+            "phone": "09111111111",
+            "unit": "101"
+          }
+        },
+        {
+          "test_name": "testUpdateUser",
+          "method": "PUT",
+          "endpoint": "/api/users/{id}",
+          "description": "Should update existing user",
+          "expected_status": 200
+        },
+        {
+          "test_name": "testDeleteUser",
+          "method": "DELETE",
+          "endpoint": "/api/users/{id}",
+          "description": "Should delete user",
+          "expected_status": 200
+        }
+      ]
+    },
+    "TransactionControllerTest": {
+      "class_name": "TransactionControllerTest",
+      "description": "Tests for Transaction management endpoints",
+      "test_methods": [
+        {
+          "test_name": "testGetAllTransactions",
+          "method": "GET",
+          "endpoint": "/api/transactions",
+          "description": "Should return list of all transactions",
+          "expected_status": 200
+        },
+        {
+          "test_name": "testGetTransactionsByUnit",
+          "method": "GET",
+          "endpoint": "/api/transactions/unit/{unitId}",
+          "description": "Should return transactions for specific unit",
+          "expected_status": 200
+        },
+        {
+          "test_name": "testCreateTransaction",
+          "method": "POST",
+          "endpoint": "/api/transactions",
+          "description": "Should create new transaction",
+          "expected_status": 200,
+          "sample_request": {
+            "title": "قبض اینترنت",
+            "amount": 95000.0,
+            "date": "2024-11-22T10:00:00",
+            "type": "EXPENSE",
+            "category": "utility",
+            "status": "pending",
+            "unitId": "1"
+          }
+        },
+        {
+          "test_name": "testGetTransactionsByType",
+          "method": "GET",
+          "endpoint": "/api/transactions/type/{type}",
+          "description": "Should filter transactions by type",
+          "expected_status": 200
+        }
+      ]
+    },
+    "MaintenanceTicketControllerTest": {
+      "class_name": "MaintenanceTicketControllerTest",
+      "description": "Tests for Maintenance ticket management endpoints",
+      "test_methods": [
+        {
+          "test_name": "testGetAllTickets",
+          "method": "GET",
+          "endpoint": "/api/maintenance",
+          "description": "Should return list of all maintenance tickets",
+          "expected_status": 200
+        },
+        {
+          "test_name": "testCreateTicket",
+          "method": "POST",
+          "endpoint": "/api/maintenance",
+          "description": "Should create new maintenance ticket",
+          "expected_status": 200,
+          "sample_request": {
+            "title": "تعمیر شیر آب",
+            "description": "شیر آب آشپزخانه چکه می‌کند",
+            "reporter": "احمد کریمی",
+            "reporterId": "user3",
+            "date": "2024-11-22T10:00:00",
+            "status": "OPEN",
+            "priority": "medium",
+            "unitId": "1"
+          }
+        },
+        {
+          "test_name": "testUpdateTicket",
+          "method": "PUT",
+          "endpoint": "/api/maintenance/{id}",
+          "description": "Should update maintenance ticket",
+          "expected_status": 200
+        },
+        {
+          "test_name": "testGetTicketsByStatus",
+          "method": "GET",
+          "endpoint": "/api/maintenance/status/{status}",
+          "description": "Should filter tickets by status",
+          "expected_status": 200
+        }
+      ]
+    },
+    "PollControllerTest": {
+      "class_name": "PollControllerTest",
+      "description": "Tests for Poll/Voting endpoints",
+      "test_methods": [
+        {
+          "test_name": "testGetAllPolls",
+          "method": "GET",
+          "endpoint": "/api/polls",
+          "description": "Should return list of all polls",
+          "expected_status": 200
+        },
+        {
+          "test_name": "testGetActivePolls",
+          "method": "GET",
+          "endpoint": "/api/polls/active",
+          "description": "Should return only active polls",
+          "expected_status": 200
+        },
+        {
+          "test_name": "testCreatePoll",
+          "method": "POST",
+          "endpoint": "/api/polls",
+          "description": "Should create new poll with options",
+          "expected_status": 200,
+          "sample_request": {
+            "question": "نظرسنجی جدید",
+            "isActive": true,
+            "options": [
+              {"text": "گزینه اول", "votes": 0},
+              {"text": "گزینه دوم", "votes": 0}
+            ]
+          }
+        },
+        {
+          "test_name": "testVote",
+          "method": "POST",
+          "endpoint": "/api/polls/{pollId}/vote/{optionId}",
+          "description": "Should record vote for poll option",
+          "expected_status": 200,
+          "sample_response": "Vote recorded successfully"
+        }
+      ]
+    },
+    "AuthControllerTest": {
+      "class_name": "AuthControllerTest", 
+      "description": "Tests for Authentication endpoints",
+      "test_methods": [
+        {
+          "test_name": "testLogin_Success",
+          "method": "POST",
+          "endpoint": "/api/auth/login",
+          "description": "Should authenticate user and return JWT token",
+          "expected_status": 200,
+          "sample_request": {
+            "username": "admin",
+            "password": "admin123"
+          },
+          "sample_response": {
+            "token": "eyJhbGciOiJIUzI1NiJ9...",
+            "username": "admin",
+            "name": "علی احمدی",
+            "role": "MANAGER",
+            "unit": "101"
+          }
+        },
+        {
+          "test_name": "testLogin_Failure",
+          "method": "POST",
+          "endpoint": "/api/auth/login", 
+          "description": "Should return bad request for invalid credentials",
+          "expected_status": 400
+        }
+      ]
+    }
+  },
+  "integration_tests": [
+    {
+      "test_name": "UserAuthenticationFlow",
+      "description": "Complete user authentication and authorization flow",
+      "steps": [
+        "1. POST /api/auth/login with valid credentials",
+        "2. Extract JWT token from response",
+        "3. Use token in Authorization header for protected endpoints",
+        "4. Verify role-based access control"
+      ]
+    },
+    {
+      "test_name": "TransactionManagementFlow", 
+      "description": "Complete transaction creation and management flow",
+      "steps": [
+        "1. Authenticate as manager",
+        "2. Create new unit",
+        "3. Create user for unit",
+        "4. Create transaction for unit",
+        "5. Update transaction status",
+        "6. Generate financial summary"
+      ]
+    },
+    {
+      "test_name": "MaintenanceTicketWorkflow",
+      "description": "Complete maintenance ticket lifecycle",
+      "steps": [
+        "1. Authenticate as resident",
+        "2. Create maintenance ticket",
+        "3. Update ticket status",
+        "4. Close completed ticket",
+        "5. Generate ticket statistics"
+      ]
+    }
+  ],
+  "security_tests": [
+    {
+      "test_name": "JWTValidation",
+      "description": "Verify JWT token validation and expiration",
+      "test_cases": [
+        "Valid JWT token should allow access",
+        "Invalid JWT token should return 401",
+        "Expired JWT token should return 401", 
+        "Missing Authorization header should return 401"
+      ]
+    },
+    {
+      "test_name": "RoleBasedAccess",
+      "description": "Verify role-based endpoint access control",
+      "test_cases": [
+        "MANAGER role should access all endpoints",
+        "OWNER role should access limited endpoints",
+        "TENANT role should access limited endpoints",
+        "Unauthenticated users should not access protected endpoints"
+      ]
+    }
+  ],
+  "test_data": {
+    "users": [
+      {
+        "username": "admin",
+        "password": "admin123",
+        "name": "علی احمدی",
+        "role": "MANAGER",
+        "phone": "09123456789",
+        "unit": "101"
+      },
+      {
+        "username": "owner1", 
+        "password": "owner123",
+        "name": "سارا مرادی",
+        "role": "OWNER",
+        "phone": "09198765432",
+        "unit": "102"
+      }
+    ],
+    "transactions": [
+      {
+        "title": "قبض برق",
+        "amount": 150000.0,
+        "type": "EXPENSE",
+        "category": "utility",
+        "status": "paid"
+      },
+      {
+        "title": "شارژ ماهانه",
+        "amount": 50000.0,
+        "type": "INCOME", 
+        "category": "monthly_fee",
+        "status": "pending"
+      }
+    ],
+    "polls": [
+      {
+        "question": "آیا با نصب دوربین امنیتی موافقید؟",
+        "options": [
+          {"text": "بله، موافقم"},
+          {"text": "خیر، مخالفم"},
+          {"text": "بی‌تفاوت"}
+        ]
+      }
+    ]
+  },
+  "performance_tests": {
+    "description": "Load testing scenarios",
+    "scenarios": [
+      {
+        "name": "UserLogin",
+        "endpoint": "POST /api/auth/login",
+        "concurrent_users": 100,
+        "duration": "60s"
+      },
+      {
+        "name": "GetAllUsers",
+        "endpoint": "GET /api/users", 
+        "concurrent_users": 50,
+        "duration": "60s"
+      }
+    ]
+  }
+}

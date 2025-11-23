@@ -1,0 +1,758 @@
+{
+	"info": {
+		"name": "Building Management System API",
+		"description": "Collection of API endpoints for Building Management System",
+		"version": "1.0.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login - Manager",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (responseCode.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('token', response.token);",
+									"    console.log('Login successful');",
+									"} else {",
+									"    console.log('Login failed');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Login - Owner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"owner1\",\n  \"password\": \"owner123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (responseCode.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('token', response.token);",
+									"    console.log('Owner login successful');",
+									"} else {",
+									"    console.log('Owner login failed');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users Management",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"newuser\",\n  \"password\": \"password123\",\n  \"name\": \"کاربر جدید\",\n  \"role\": \"TENANT\",\n  \"phone\": \"09111111111\",\n  \"unit\": \"101\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"updateduser\",\n  \"password\": \"newpassword\",\n  \"name\": \"کاربر به‌روزرسانی شده\",\n  \"role\": \"OWNER\",\n  \"phone\": \"09122222222\",\n  \"unit\": \"102\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Users by Role",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/role/MANAGER",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"role",
+								"MANAGER"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Transactions Management",
+			"item": [
+				{
+					"name": "Get All Transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/transactions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Transactions by Unit",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/unit/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"unit",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"قبض اینترنت\",\n  \"amount\": 95000.0,\n  \"date\": \"2024-11-22T10:00:00\",\n  \"type\": \"EXPENSE\",\n  \"category\": \"utility\",\n  \"status\": \"pending\",\n  \"unitId\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/transactions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Transaction",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"قبض برق - به‌روزرسانی\",\n  \"amount\": 160000.0,\n  \"date\": \"2024-11-22T10:00:00\",\n  \"type\": \"EXPENSE\",\n  \"category\": \"utility\",\n  \"status\": \"paid\",\n  \"unitId\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/transactions/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Transaction",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Financial Summary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/summary?startDate=2024-01-01T00:00:00&endDate=2024-12-31T23:59:59",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01T00:00:00"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-12-31T23:59:59"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Maintenance Tickets",
+			"item": [
+				{
+					"name": "Get All Tickets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/maintenance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"maintenance"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Ticket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"تعمیر شیر آب\",\n  \"description\": \"شیر آب آشپزخانه چکه می‌کند\",\n  \"reporter\": \"احمد کریمی\",\n  \"reporterId\": \"user3\",\n  \"date\": \"2024-11-22T10:00:00\",\n  \"status\": \"OPEN\",\n  \"priority\": \"medium\",\n  \"unitId\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/maintenance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"maintenance"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Ticket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"تعمیر آسانسور - به‌روزرسانی\",\n  \"description\": \"آسانسور کار نمی‌کند - در حال تعمیر\",\n  \"reporter\": \"سارا مرادی\",\n  \"reporterId\": \"user1\",\n  \"date\": \"2024-11-22T10:00:00\",\n  \"status\": \"DONE\",\n  \"priority\": \"high\",\n  \"unitId\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/maintenance/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"maintenance",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Tickets by Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/maintenance/status/OPEN",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"maintenance",
+								"status",
+								"OPEN"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Ticket Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/maintenance/stats/status-counts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"maintenance",
+								"stats",
+								"status-counts"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Polls & Voting",
+			"item": [
+				{
+					"name": "Get All Polls",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/polls",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"polls"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Active Polls",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/polls/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"polls",
+								"active"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Poll",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"question\": \"نظرسنجی جدید\",\n  \"isActive\": true,\n  \"options\": [\n    {\n      \"text\": \"گزینه اول\",\n      \"votes\": 0\n    },\n    {\n      \"text\": \"گزینه دوم\",\n      \"votes\": 0\n    },\n    {\n      \"text\": \"گزینه سوم\",\n      \"votes\": 0\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/polls",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"polls"
+							]
+						}
+					}
+				},
+				{
+					"name": "Vote",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/polls/1/vote/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"polls",
+								"1",
+								"vote",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Poll",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/polls/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"polls",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator/health",
+							"host": [
+								"localhost:8080"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "Metrics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/actuator/metrics",
+							"host": [
+								"localhost:8080"
+							],
+							"path": [
+								"actuator",
+								"metrics"
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}
